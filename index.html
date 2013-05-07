@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Demo</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.1.1.js"></script>
+    <!-- <script src="lib/backbone.js"></script> -->
+    <script src="lib/underscore.js"></script>
+</head>
+<body>
+<h1>Canvas Demo</h1>
+
+<canvas id="myCanvas" width="480" height="640" style="background: #101010"></canvas>
+
+<noscript>JavaScript must be enabled in order to play this game.</noscript>
+<script>
+
+// IIFE credits: http://www.codethinked.com/preparing-yourself-for-modern-javascript-development
+(function(window, $, undefined) {
+
+    // mainloop code credits: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
+    var mainloop = function() {
+        updateGame();
+        drawGame();
+    };
+
+    var animFrame = window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.oRequestAnimationFrame      ||
+            window.msRequestAnimationFrame     ||
+            null ;        //     window.mozRequestAnimationFrame    ||
+
+    if ( animFrame !== null ) {
+        var canvas = document.getElementById('myCanvas');
+
+        // debug
+        console.log($.browser);
+
+        if ( $.browser.mozilla ) {
+
+            var recursiveAnim = function() {
+                mainloop();
+                animFrame();
+            };
+
+            // setup for multiple calls
+            window.addEventListener("MozBeforePaint", recursiveAnim, false);
+
+            // start the mainloop
+            animFrame();
+
+        } else { // not mozilla
+
+            var recursiveAnim = function() {
+                mainloop();
+                animFrame( recursiveAnim, canvas );
+            };
+
+            // start the mainloop
+            animFrame( recursiveAnim, canvas );
+        }
+    } else {
+        // requestAnimationFrame is not supported.
+        console.log('requestAnimationFrame is not supported by this browser.');
+
+        // fallback to setInterval
+        var ONE_FRAME_TIME = 1000.0 / 60.0 ;
+        setInterval( mainloop, ONE_FRAME_TIME );
+    }
+
+/*
+    // Class
+    function Ball() {
+        var x = 0,
+            y = 0,
+        //    w = 0, // width
+        //    h = 0, // height
+            r = 0; // radius
+
+        var init = function(x, y, radius) {
+            this.x = x;
+            this.y = y;
+            //this.w = width;
+            //this.h = height;
+            this.r = radius;
+            return this;           
+        }
+        var draw = function() {
+            // arc(x, y, r, startAngle, endAngle)
+            ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+            ctx.fill();            
+        }
+
+        // Revealing module pattern
+        return {
+
+            // x public getter
+            getX: function() { return x },
+            // x public setter
+            setX: function(val) { this.x = val },
+
+            // y public getter
+            getY: function() { return y },
+            // y public setter
+            setY: function(val) { this.y = val },
+
+            // r public getter
+            getRadius: function() { return r },
+            // r public setter
+            setRadius: function(val) { this.r = val },
+
+            init: this.init,
+            draw: this.draw
+        };
+    }
+*/
+
+
+    function Shape() {
+
+        this.context = window.document.getElementById('myCanvas').getContext('2d');
+
+        this.oncollision = function(callback) {
+            var sampleData = {
+                foo: 'bar',
+                baz: 'qux'
+            };
+            if (callback !== null) {
+                // The neat thing about using call() is that we set the context
+                // in which the function is executed. This means that when we
+                // use the this keyword inside our callback function it refers
+                // to whatever we passed as the first argument for call().
+                // Credits: http://recurial.com/programming/understanding-callback-functions-in-javascript/
+                callback.call(this, sampleData);
+            }
+        }        
+    }
+
+    function Ball() {
+
+        this.inheritFrom = Shape;
+        this.inheritFrom();
+
+        // properties
+        this.x = 0;
+        this.y = 0;
+        this.radius = 0;
+
+        this.init = function(x, y, radius) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+
+            return this;
+        }
+
+        this.draw = function() {
+            var startAngle = 0,
+                endAngle = 2*Math.PI;
+
+            this.context.fillStyle = '#933';         
+            this.context.arc(this.x, this.y, this.radius, startAngle, endAngle);
+            this.context.fill();
+        }
+    }
+
+    function Obstacle() {
+
+        this.inheritFrom = Shape;
+        this.inheritFrom();
+
+        // properties
+        this.x = 0;
+        this.y = 0;
+        this.width  = 0;
+        this.height = 0;
+
+        this.init = function (x, y, width, height) {
+            this.x = x;
+            this.y = y;
+            this.width  = width;
+            this.height = height;
+        }
+
+        this.draw = function() {
+            this.context.fillStyle = '#393';
+            this.context.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+
+    var globalContext = window.document.getElementById('myCanvas').getContext('2d');
+    // Extending the Context to add a clear() function
+    // Credits: http://stackoverflow.com/a/9722502
+    CanvasRenderingContext2D.prototype.clear = 
+      CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
+        if (preserveTransform) {
+          this.save();
+          this.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        this.beginPath();
+        this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.closePath();
+
+        if (preserveTransform) {
+          this.restore();
+        }
+    }; 
+
+
+    // Initializing Classes
+//    var ball = new Ball(); // 100, 600, 20
+//    ball.setX(100);
+//    ball.setY(600);
+//    ball.setRadius(20);
+    //ball.init();
+//    ball.draw;
+
+    // Shapes initialization
+    var ball = new Ball;
+    ball.init(100, 150, 20);
+    var obstacle = new Obstacle;
+    obstacle.init(50, 10, 300, 20);
+
+    ball.oncollision(function(data){
+        // TODO do something after the collision
+        console.log(this);
+        console.log(data);
+    });
+
+    function updateGame() {
+        
+        ball.y--;
+    }
+
+    function drawGame() {
+
+        //var canvas = document.getElementById('myCanvas');
+        //var ctx = canvas.getContext('2d');
+        //ctx.fillStyle = '#933';
+        //ctx.fillRect(50,200,300,20);
+        //ctx.fillStyle = '#393';
+        // arc(x,y,r,start,stop)
+        //ctx.arc(100, 600, 10, 20, 0, 2 * Math.PI);
+        //ctx.fill();
+
+        // clear the canvas before drawing
+        globalContext.clear();
+
+        ball.draw();
+        obstacle.draw();
+    }
+
+})(window, jQuery);
+    
+
+</script>
+
+</body>
+</html>
