@@ -74,28 +74,68 @@ define(["jquery",
 
     // Shapes initialization
     var ball = new Ball;
-    ball.init(100, 150, 20);
+    ball.init(40, 40, 20);
     var obstacle = new Obstacle;
-    obstacle.init(50, 10, 300, 20);
+    obstacle.init(50, 50, 300, 20);
 
     ball.oncollision(function(data){
         // TODO do something after the collision
     });
 
+    ball.draw();
+    obstacle.draw();
+
+    //console.log(ball.data);
+    var data = ball.imageData.data; 
+    var value = 255;
+
+    for (var y = 0; y < ball.height; ++y) {
+        for (var x = 0; x < ball.width; ++x) {
+            // Before we can plot a pixel, we must translate the x and y
+            // coordinates into an index representing the offset of the 
+            // first channnel within the one-dimensional array.
+            var index = (y * ball.width + x) * 4;
+            // we multiply the y coordinate by the width of the canvas,
+            // add the x coordinate,
+            // then multiply by four.
+            // We must multiply by four because there are
+            // four elements per pixel, one for each channel.
+            //data[index]   = value;  // red
+            //data[++index] = value;  // green
+            //data[++index] = value;  // blue
+            //data[++index] = value;  // alpha
+//          console.log(data[index]);
+//          console.log(data[++index]);
+//          console.log(data[++index]);
+//          console.log(data[++index]);                     
+        }
+    }
+
+    globalContext.putImageData(ball.imageData, ball.x + 90, ball.y + 90);
+
+    // Working example of how to access imageData
+    //var imageData = globalContext.getImageData(20, 20, canvas.width, canvas.height);
+    //var data = imageData.data;
+    //for (var i = 0; i < data.length; i++) {
+    //    data[i] = 255;
+    //}
+    //globalContext.putImageData(imageData, 30, 30);
+
 
     function updateGame() {
         
-        ball.y--;
+        //ball.y--;
     }
 
 
     function drawGame() {
 
         // clear the canvas before drawing
-        globalContext.clear();
+        //globalContext.clear();
 
-        ball.draw();
-        obstacle.draw();
+        //ball.draw();
+        //obstacle.draw();
     }
+
 
 });

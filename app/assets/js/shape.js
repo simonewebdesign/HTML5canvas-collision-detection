@@ -1,6 +1,12 @@
 function Shape() {
 
+    // properties
     this.context = window.document.getElementById('myCanvas').getContext('2d');
+    this.x = 0;
+    this.y = 0;
+    this.width  = 0;
+    this.height = 0;
+    this.imageData = null;
 
     this.oncollision = function(callback) {
         var sampleData = {

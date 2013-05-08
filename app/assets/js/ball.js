@@ -3,17 +3,18 @@ function Ball() {
     this.inheritFrom = Shape;
     this.inheritFrom();
 
-    // properties
-    this.x = 0;
-    this.y = 0;
+    //property
     this.radius = 0;
+
 
     this.init = function(x, y, radius) {
         this.x = x;
         this.y = y;
         this.radius = radius;
-
-        return this;
+        this.width = this.height = radius * 2;
+        // WARNING: x and y originally referred to the center!!!
+        // also, x and y should NEVER be negative!!!
+        this.imageData = this.context.getImageData(this.x - radius, this.y - radius, this.width, this.height);
     }
 
     this.draw = function() {
