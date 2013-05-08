@@ -17,9 +17,11 @@ define(["jquery",
             null ;        //     window.mozRequestAnimationFrame    ||
 
     if ( animFrame !== null ) {
-        var canvas = document.getElementById('myCanvas');
+        
+        var canvas = window.document.getElementById('myCanvas'),
+            globalContext = canvas.getContext('2d'),    
+            isMozilla = false; // $.browser.mozilla is deprecated in jQuery 2.0.0
 
-        var isMozilla = false; // $.browser.mozilla is deprecated in jQuery 2.0.0
         if ( isMozilla ) {
 
             var recursiveAnim = function() {
@@ -52,8 +54,6 @@ define(["jquery",
         setInterval( mainloop, ONE_FRAME_TIME );
     }
 
-
-    var globalContext = window.document.getElementById('myCanvas').getContext('2d');
     // Extending the Context to add a clear() function
     // Credits: http://stackoverflow.com/a/9722502
     CanvasRenderingContext2D.prototype.clear = 
