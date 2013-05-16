@@ -29,15 +29,7 @@ function Ball() {
         this.context.fillStyle = '#933';
         this.context.arc(this.x, this.y, this.radius, startAngle, endAngle);
         this.context.fill();
-        this.setImageData();
-    }
-
-    // private
-    this.setImageData = function() {
-        this.imageData = this.context.getImageData(this.x - this.radius, 
-                                                   this.y - this.radius, 
-                                                   this.width, 
-                                                   this.height);
+        this.updateImageData();
     }
 }
 // enabling inheritance 

@@ -21,15 +21,7 @@ function Obstacle() {
     this.draw = function() {
         this.context.fillStyle = '#393';
         this.context.fillRect(this.x, this.y, this.width, this.height);
-        this.setImageData();
-    }
-
-    // private
-    this.setImageData = function() {
-        this.imageData = this.context.getImageData(this.x, 
-                                                   this.y, 
-                                                   this.width, 
-                                                   this.height);
+        this.updateImageData();
     }
 }
 // enabling inheritance 

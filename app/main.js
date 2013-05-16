@@ -74,35 +74,35 @@ define(["jquery",
 
     // Shapes initialization
     var ball = new Ball;
-    ball.init(40, 40, 20);
+    ball.init(100, 200, 20);
     ball.draw();
 
     var obstacle = new Obstacle;
     obstacle.init(50, 50, 300, 20);
     obstacle.draw();
 
-    ball.oncollision(function(data) {
-        // TODO do something after the collision
-        console.log('callback called');
-    });
-
-
-
-
 
     function updateGame() {
         
-        //ball.y--;
+        ball.y--;
     }
 
 
     function drawGame() {
 
         // clear the canvas before drawing
-        //globalContext.clear();
+        globalContext.clear();
 
-        //ball.draw();
-        //obstacle.draw();
+        // I draw the obstacle first because I want the ball to have
+        // an higher z-inded.
+        obstacle.draw();
+        ball.draw();
+
+        // Collision detection
+        obstacle.oncollision(function(data) {
+            // Game Over!
+            
+        });
     }
 
 

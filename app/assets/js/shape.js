@@ -9,13 +9,8 @@ function Shape() {
     this.imageData = null;
 
     this.oncollision = function(callback) {
-        console.log('collision detected!');
 
-        var sampleData = {
-            foo: 'bar',
-            baz: 'qux'
-        };
-
+        this.updateImageData();
         if (this.imageData === null) {
             return false;
         }
@@ -33,34 +28,75 @@ function Shape() {
                 // add the x coordinate, then multiply by four.
                 // We must multiply by four because there are
                 // four elements per pixel, one for each channel.
-                data[index]   = 255;  // red
-                data[++index] = 255;  // green
-                data[++index] = 255;  // blue
-                data[++index] = 255;  // alpha
+
+                // Now we can access to every pixel.
+                // A pixel is composed of four values:
+                // RGBA (red, green, blue, alpha).
+                // data[index]   = 51;  // red
+                // data[++index] = 153; // green
+                // data[++index] = 51;  // blue
+                // data[++index] = 255; // alpha
+
+                var red = 51,
+                    green = 153,
+                    blue = 51,
+                    alpha = 255;
+
+                // If a pixel has changed, there was a collision.
+                if (data[index] !== red ||
+                    data[++index] !== green ||
+                    data[++index] !== blue ||
+                    data[++index] !== alpha) {
+                    // Collision detected.
+
+                    // Getting some data to use in the callback function
+                    var callbackData = {
+                        foo: 'bar',
+                        baz: 'qux'
+                    };
+
+                    if (callback !== null) {
+                        // The neat thing about using call() is that we set the context
+                        // in which the function is executed. This means that when we
+                        // use the this keyword inside our callback function it refers
+                        // to whatever we passed as the first argument for call().
+                        // Credits: http://recurial.com/programming/understanding-callback-functions-in-javascript/
+                        callback.call(this, callbackData);
+                    }
+                }
             }
         }
 
+        // Here's a working example of how to calculate offset for putImageData.
         // calculating offset
-        var offset = 0;
-        if (this instanceof Ball) {
-            offset = this.radius;
-        } //else
-        //if (this instanceof Obstacle) {
-            // offset is already 0
+        //var offset = 0;
+        //if (this instanceof Ball) {
+        //    offset = this.radius;
         //}
 
-        this.context.putImageData(this.imageData,
-                                  this.x - offset,
-                                  this.y - offset);
+        //this.context.putImageData(this.imageData,
+        //                          this.x - offset,
+        //                          this.y - offset);
+        // end of the working example.
+    }
 
 
-        if (callback !== null) {
-            // The neat thing about using call() is that we set the context
-            // in which the function is executed. This means that when we
-            // use the this keyword inside our callback function it refers
-            // to whatever we passed as the first argument for call().
-            // Credits: http://recurial.com/programming/understanding-callback-functions-in-javascript/
-            callback.call(this, sampleData);
+    // private
+    this.updateImageData = function() {
+
+        if (this instanceof Obstacle) {
+            this.imageData = this.context.getImageData(this.x,
+                                                       this.y,
+                                                       this.width,
+                                                       this.height);
+        } else
+        if (this instanceof Ball) {
+            this.imageData = this.context.getImageData(this.x - this.radius, 
+                                                       this.y - this.radius, 
+                                                       this.width, 
+                                                       this.height);
+        } else {
+            console.log("something very bad just happened.");
         }
-    }        
+    }
 }
