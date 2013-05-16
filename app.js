@@ -5,6 +5,7 @@
 requirejs.config({
 
     "baseUrl": "lib",
+    "urlArgs": "bust=" + (new Date()).getTime(), // cache bust!
 
     "paths": {
 
