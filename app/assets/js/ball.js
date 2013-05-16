@@ -8,13 +8,18 @@ function Ball() {
 
 
     this.init = function(x, y, radius) {
+
+        if (x == 0 || y == 0) {
+            this = null;
+            return;
+        }
+
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.width = this.height = radius * 2;
         // WARNING: x and y originally referred to the center!!!
         // also, x and y should NEVER be negative!!!
-        this.imageData = this.context.getImageData(this.x - radius, this.y - radius, this.width, this.height);
     }
 
     this.draw = function() {
@@ -24,5 +29,14 @@ function Ball() {
         this.context.fillStyle = '#933';
         this.context.arc(this.x, this.y, this.radius, startAngle, endAngle);
         this.context.fill();
+        this.setImageData();
+    }
+
+    // private
+    this.setImageData = function() {
+        this.imageData = this.context.getImageData(this.x - this.radius, 
+                                                   this.y - this.radius, 
+                                                   this.width, 
+                                                   this.height);
     }
 }

@@ -85,10 +85,12 @@ define(["jquery",
     ball.draw();
     obstacle.draw();
 
-    //console.log(ball.data);
-    var data = ball.imageData.data; 
+    var ballData = ball.imageData.data;
+    console.log(ballData);
     var value = 255;
 
+    // the ball becomes a white square!
+    // second working example of how to access/modify imageData.data
     for (var y = 0; y < ball.height; ++y) {
         for (var x = 0; x < ball.width; ++x) {
             // Before we can plot a pixel, we must translate the x and y
@@ -100,14 +102,10 @@ define(["jquery",
             // then multiply by four.
             // We must multiply by four because there are
             // four elements per pixel, one for each channel.
-            //data[index]   = value;  // red
-            //data[++index] = value;  // green
-            //data[++index] = value;  // blue
-            //data[++index] = value;  // alpha
-//          console.log(data[index]);
-//          console.log(data[++index]);
-//          console.log(data[++index]);
-//          console.log(data[++index]);                     
+            ballData[index]   = value;  // red
+            ballData[++index] = value;  // green
+            ballData[++index] = value;  // blue
+            ballData[++index] = value;  // alpha
         }
     }
 
