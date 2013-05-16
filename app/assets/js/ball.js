@@ -40,3 +40,8 @@ function Ball() {
                                                    this.height);
     }
 }
+// enabling inheritance 
+// i.e.: 
+// (new Ball()) instanceof Shape
+// >> true
+Ball.prototype = new Shape;

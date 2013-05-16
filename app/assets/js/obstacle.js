@@ -32,3 +32,8 @@ function Obstacle() {
                                                    this.height);
     }
 }
+// enabling inheritance 
+// i.e.: 
+// (new Obstacle()) instanceof Shape
+// >> true
+Obstacle.prototype = new Shape; 

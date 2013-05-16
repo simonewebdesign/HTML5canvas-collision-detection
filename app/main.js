@@ -75,49 +75,19 @@ define(["jquery",
     // Shapes initialization
     var ball = new Ball;
     ball.init(40, 40, 20);
+    ball.draw();
+
     var obstacle = new Obstacle;
     obstacle.init(50, 50, 300, 20);
-
-    ball.oncollision(function(data){
-        // TODO do something after the collision
-    });
-
-    ball.draw();
     obstacle.draw();
 
-    var ballData = ball.imageData.data;
-    console.log(ballData);
-    var value = 255;
+    ball.oncollision(function(data) {
+        // TODO do something after the collision
+        console.log('callback called');
+    });
 
-    // the ball becomes a white square!
-    // second working example of how to access/modify imageData.data
-    for (var y = 0; y < ball.height; ++y) {
-        for (var x = 0; x < ball.width; ++x) {
-            // Before we can plot a pixel, we must translate the x and y
-            // coordinates into an index representing the offset of the 
-            // first channnel within the one-dimensional array.
-            var index = (y * ball.width + x) * 4;
-            // we multiply the y coordinate by the width of the canvas,
-            // add the x coordinate,
-            // then multiply by four.
-            // We must multiply by four because there are
-            // four elements per pixel, one for each channel.
-            ballData[index]   = value;  // red
-            ballData[++index] = value;  // green
-            ballData[++index] = value;  // blue
-            ballData[++index] = value;  // alpha
-        }
-    }
 
-    globalContext.putImageData(ball.imageData, ball.x + 90, ball.y + 90);
 
-    // Working example of how to access imageData
-    //var imageData = globalContext.getImageData(20, 20, canvas.width, canvas.height);
-    //var data = imageData.data;
-    //for (var i = 0; i < data.length; i++) {
-    //    data[i] = 255;
-    //}
-    //globalContext.putImageData(imageData, 30, 30);
 
 
     function updateGame() {
