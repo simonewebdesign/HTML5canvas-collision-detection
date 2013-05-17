@@ -1,6 +1,5 @@
 // define dependencies
-define(["jquery", 
-        "module/shape",
+define(["module/shape",
         "module/ball",
         "module/obstacle"], function($) {
 
@@ -12,9 +11,10 @@ define(["jquery",
 
     var animFrame = window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
             window.oRequestAnimationFrame      ||
             window.msRequestAnimationFrame     ||
-            null ;        //     window.mozRequestAnimationFrame    ||
+            null ;
 
     if ( animFrame !== null ) {
         
@@ -93,8 +93,8 @@ define(["jquery",
         // clear the canvas before drawing
         globalContext.clear();
 
-        // I draw the obstacle first because I want the ball to have
-        // an higher z-inded.
+        // I draw the obstacle first because I want
+        // the ball to have an higher z-index.
         obstacle.draw();
         ball.draw();
 

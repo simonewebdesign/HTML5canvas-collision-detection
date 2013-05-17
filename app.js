@@ -4,8 +4,11 @@
 // except 'app' ones, 
 requirejs.config({
 
+    // path to external libraries
     "baseUrl": "lib",
-    "urlArgs": "bust=" + (new Date()).getTime(), // cache bust!
+
+    // cache bust!
+    "urlArgs": "bust=" + (new Date()).getTime(),
 
     "paths": {
 
@@ -14,6 +17,7 @@ requirejs.config({
       "module": "../app/assets/js",
 
       // I dropped the support for IE < 9
+      // But actually I'm not using jQuery.
       "jquery": "http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min"
     }
 });

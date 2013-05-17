@@ -30,13 +30,13 @@ function Shape() {
                 // four elements per pixel, one for each channel.
 
                 // Now we can access to every pixel.
-                // A pixel is composed of four values:
+                // A pixel is composed of four channels:
                 // RGBA (red, green, blue, alpha).
-                // data[index]   = 51;  // red
-                // data[++index] = 153; // green
-                // data[++index] = 51;  // blue
-                // data[++index] = 255; // alpha
-
+                // data[index]   // red
+                // data[++index] // green
+                // data[++index] // blue
+                // data[++index] // alpha
+                
                 var red = 51,
                     green = 153,
                     blue = 51,
@@ -66,18 +66,6 @@ function Shape() {
                 }
             }
         }
-
-        // Here's a working example of how to calculate offset for putImageData.
-        // calculating offset
-        //var offset = 0;
-        //if (this instanceof Ball) {
-        //    offset = this.radius;
-        //}
-
-        //this.context.putImageData(this.imageData,
-        //                          this.x - offset,
-        //                          this.y - offset);
-        // end of the working example.
     }
 
 
@@ -89,14 +77,16 @@ function Shape() {
                                                        this.y,
                                                        this.width,
                                                        this.height);
+            return true;
+
         } else
         if (this instanceof Ball) {
             this.imageData = this.context.getImageData(this.x - this.radius, 
                                                        this.y - this.radius, 
                                                        this.width, 
                                                        this.height);
-        } else {
-            console.log("something very bad just happened.");
+            return true;
         }
+        return false;
     }
 }

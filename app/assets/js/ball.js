@@ -33,7 +33,7 @@ function Ball() {
     }
 }
 // enabling inheritance 
-// i.e.: 
+// so that I can do this: 
 // (new Ball()) instanceof Shape
 // >> true
 Ball.prototype = new Shape;
