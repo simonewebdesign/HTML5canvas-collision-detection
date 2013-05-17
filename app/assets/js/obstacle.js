@@ -6,16 +6,12 @@ function Obstacle() {
 
     this.init = function(x, y, width, height) {
 
-        if (x == 0 || y == 0) {
-            this = null;
-            return;
-        }
+        if (x < 0 || y < 0) return;
 
         this.x = x;
         this.y = y;
         this.width  = width;
         this.height = height;
-        this.imageData = this.context.getImageData(this.x, this.y, this.width, this.height);
     }
 
     this.draw = function() {
@@ -85,7 +81,4 @@ function Obstacle() {
     }    
 }
 // enabling inheritance 
-// i.e.: 
-// (new Obstacle()) instanceof Shape
-// >> true
 Obstacle.prototype = new Shape; 

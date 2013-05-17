@@ -9,10 +9,9 @@ function Ball() {
 
     this.init = function(x, y, radius) {
 
-        if (x == 0 || y == 0) {
-            this = null;
-            return;
-        }
+        // a ball with coordinates lower than the
+        // radius should never be instantiated
+        if (x <= radius || y <= radius) return;
 
         this.x = x;
         this.y = y;
@@ -33,7 +32,4 @@ function Ball() {
     }
 }
 // enabling inheritance 
-// so that I can do this: 
-// (new Ball()) instanceof Shape
-// >> true
 Ball.prototype = new Shape;
