@@ -5,10 +5,9 @@ function Ball() {
 
     //property
     this.radius = 0;
-
+    this.movement = "normal";
 
     this.init = function(x, y, radius) {
-
         // a ball with coordinates lower than the
         // radius should never be instantiated
         if (x <= radius || y <= radius) return;
@@ -29,6 +28,15 @@ function Ball() {
         this.context.arc(this.x, this.y, this.radius, startAngle, endAngle);
         this.context.fill();
         this.updateImageData();
+    }
+
+    this.move = function() {
+        if (this.movement === "normal") {
+            this.y--;            
+        } else
+        if (this.movement === "inverted") {
+            this.y++;
+        }
     }
 }
 // enabling inheritance 

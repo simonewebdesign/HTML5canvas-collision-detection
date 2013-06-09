@@ -28,8 +28,7 @@ function Obstacle() {
         }
 
         var data = this.imageData.data;
-        // the ball becomes a white square!
-        // second working example of how to access/modify imageData.data
+
         for (var Y = 0; Y < this.height; ++Y) {
             for (var X = 0; X < this.width; ++X) {
                 // Before we can plot a pixel, we must translate the x and y

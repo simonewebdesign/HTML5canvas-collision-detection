@@ -47,8 +47,6 @@ define(["module/shape",
         }
     } else {
         // requestAnimationFrame is not supported.
-        console.log('requestAnimationFrame is not supported by this browser.');
-
         // fallback to setInterval
         var ONE_FRAME_TIME = 1000.0 / 60.0 ;
         setInterval( mainloop, ONE_FRAME_TIME );
@@ -74,36 +72,40 @@ define(["module/shape",
 
     // Shapes initialization
     var ball = new Ball;
-    ball.init(100, 200, 20);
+    ball.init(160, 60, 20);
     ball.draw();
 
-    var obstacle = new Obstacle;
-    obstacle.init(50, 50, 300, 20);
-    obstacle.draw();
+    var obstacle1 = new Obstacle;
+    obstacle1.init(20, 20, 280, 20);
+    obstacle1.draw();
 
+    var obstacle2 = new Obstacle;
+    obstacle2.init(20, 200, 280, 20);
+    obstacle2.draw();
 
     function updateGame() {
         
-        ball.y--;
+        ball.move();
     }
-
 
     function drawGame() {
 
         // clear the canvas before drawing
         globalContext.clear();
 
-        // I draw the obstacle first because I want
+        // I draw the obstacles first because I want
         // the ball to have an higher z-index.
-        obstacle.draw();
+        obstacle1.draw();
+        obstacle2.draw();
         ball.draw();
 
         // Collision detection
-        obstacle.oncollision(function(data) {
-            // Game Over!
-            
+        obstacle1.oncollision(function(data) {
+            ball.movement = "inverted";
+        });
+        obstacle2.oncollision(function(data) {
+            ball.movement = "normal";
         });
     }
-
 
 });
