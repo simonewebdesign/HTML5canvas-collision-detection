@@ -83,9 +83,37 @@ define(["module/shape",
     obstacle2.init(20, 200, 280, 20);
     obstacle2.draw();
 
+
+    /*
+    JavaScript char codes: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+
+    left arrow      37
+    up arrow        38
+    right arrow     39
+    down arrow      40
+    */
+    window.addEventListener('keydown', function(evt){
+
+     // debug
+     var charCode = (evt.which) ? evt.which : event.keyCode,
+         charCodeName = String.fromCharCode(charCode);
+     console.log('keydown: ' + charCode + ' ' + charCodeName);
+
+    }, false);
+
     function updateGame() {
         
         ball.move();
+
+        // Ball movement
+
+        // Collision detection
+        obstacle1.oncollision(function(data) {
+            ball.movement = "inverted";
+        });
+        obstacle2.oncollision(function(data) {
+            ball.movement = "normal";
+        });  
     }
 
     function drawGame() {
@@ -98,14 +126,6 @@ define(["module/shape",
         obstacle1.draw();
         obstacle2.draw();
         ball.draw();
-
-        // Collision detection
-        obstacle1.oncollision(function(data) {
-            ball.movement = "inverted";
-        });
-        obstacle2.oncollision(function(data) {
-            ball.movement = "normal";
-        });
     }
 
 });
