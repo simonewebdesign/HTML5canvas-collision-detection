@@ -99,11 +99,31 @@ define(["module/shape",
          charCodeName = String.fromCharCode(charCode);
      console.log('keydown: ' + charCode + ' ' + charCodeName);
 
+     var LEFT_ARROW =  37,
+         UP_ARROW =    38,
+         RIGHT_ARROW = 39,
+         DOWN_ARROW =  40;
+
+     if (charCode == UP_ARROW) {
+        ball.moveUp();
+     }
+     if (charCode == DOWN_ARROW) {
+        ball.moveDown();
+     }
+     if (charCode == LEFT_ARROW) {
+        ball.moveLeft();
+     }
+     if (charCode == RIGHT_ARROW) {
+        ball.moveRight();
+     }
+
+
+
     }, false);
 
     function updateGame() {
         
-        ball.move();
+        //ball.move();
 
         // Ball movement
 

@@ -38,6 +38,23 @@ function Ball() {
             this.y++;
         }
     }
+
+    // void
+    this.moveUp = function() {
+        this.y--;
+    }
+    // void
+    this.moveDown = function() {
+        this.y++;
+    }
+    // void
+    this.moveLeft = function() {
+        this.x--;
+    }
+    // void
+    this.moveRight = function() {
+        this.x++;
+    }
 }
 // enabling inheritance 
 Ball.prototype = new Shape;
